@@ -43,4 +43,28 @@ public class UsuarioService {
                         .build())
                 .toList();
     }
+
+    public UsuarioDtoResponse atualizarUsuario(Long id, UsuariosDtoRequest usuarioRequest) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuarioEntity.setNome(usuarioRequest.getNome());
+        usuarioEntity.setEmail(usuarioRequest.getEmail());
+        usuarioEntity.setIdade(usuarioRequest.getIdade());
+
+        usuarioRepository.save(usuarioEntity);
+
+        return UsuarioDtoResponse.builder()
+                .nome(usuarioEntity.getNome())
+                .email(usuarioEntity.getEmail())
+                .idade(usuarioEntity.getIdade())
+                .build();
+    }
+
+        public void deletarUsuario(Long id) {
+                UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        
+                usuarioRepository.delete(usuarioEntity);
+        }
 }
