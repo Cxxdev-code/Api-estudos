@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Dtos.UsuarioDtoResponse;
-import com.example.demo.Dtos.UsuariosDtoRequest;
+import com.example.demo.dtos.UsuarioDtoResponse;
+import com.example.demo.dtos.UsuariosDtoRequest;
 import com.example.demo.service.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -39,14 +40,14 @@ public class UsuarioController {
         return usuarioService.criarUsuario(usuarioDtoRequest);
     }
 
-    @GetMapping("/{idade}")
-    public List<UsuarioDtoResponse> UsuariosPorIdade(@PathVariable Integer idade) {
+    @GetMapping("/idade")
+    public List<UsuarioDtoResponse> UsuariosPorIdade(@RequestParam Integer idade) {
         return usuarioService.listarUsuariosPorIdade(idade);
     }
     
 
     @PutMapping("/{id}")
-    public UsuarioDtoResponse atualizarUsuario(@Valid @PathVariable Long id, @RequestBody UsuariosDtoRequest usuarioDtoRequest) {
+    public UsuarioDtoResponse atualizarUsuario(@PathVariable Long id,@Valid @RequestBody UsuariosDtoRequest usuarioDtoRequest) {
         return usuarioService.atualizarUsuario(id, usuarioDtoRequest);
     }
 

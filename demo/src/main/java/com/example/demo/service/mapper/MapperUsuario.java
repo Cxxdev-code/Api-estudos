@@ -2,8 +2,8 @@ package com.example.demo.service.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.demo.Dtos.UsuarioDtoResponse;
-import com.example.demo.Dtos.UsuariosDtoRequest;
+import com.example.demo.dtos.UsuarioDtoResponse;
+import com.example.demo.dtos.UsuariosDtoRequest;
 import com.example.demo.model.UsuarioEntity;
 
 @Component

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dtos.UsuarioDtoResponse;
-import com.example.demo.Dtos.UsuariosDtoRequest;
+import com.example.demo.dtos.UsuarioDtoResponse;
+import com.example.demo.dtos.UsuariosDtoRequest;
 import com.example.demo.model.UsuarioEntity;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.mapper.MapperUsuario;
