@@ -8,6 +8,7 @@ import com.example.demo.Dtos.UsuarioDtoResponse;
 import com.example.demo.Dtos.UsuariosDtoRequest;
 import com.example.demo.model.UsuarioEntity;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.mapper.MapperUsuario;
 
 import lombok.AllArgsConstructor;
 
@@ -16,31 +17,17 @@ import lombok.AllArgsConstructor;
 public class UsuarioService {
     
     private final UsuarioRepository usuarioRepository;
+    private final MapperUsuario mapperUsuario;
 
     public UsuarioDtoResponse criarUsuario(UsuariosDtoRequest usuarioRequest) {
-
-        UsuarioEntity usuarioEntity = UsuarioEntity.builder()
-                .nome(usuarioRequest.getNome())
-                .email(usuarioRequest.getEmail())
-                .idade(usuarioRequest.getIdade())
-                .build();
-                
+        UsuarioEntity usuarioEntity = mapperUsuario.toEntity(usuarioRequest);
         usuarioRepository.save(usuarioEntity);
-
-        return UsuarioDtoResponse.builder()
-                .nome(usuarioEntity.getNome())
-                .email(usuarioEntity.getEmail())
-                .idade(usuarioEntity.getIdade())
-                .build();
+        return mapperUsuario.toResponse(usuarioEntity);
     }
 
     public List<UsuarioDtoResponse> listarUsuarios() {
         return usuarioRepository.findAll().stream()
-                .map(usuarioEntity -> UsuarioDtoResponse.builder()
-                        .nome(usuarioEntity.getNome())
-                        .email(usuarioEntity.getEmail())
-                        .idade(usuarioEntity.getIdade())
-                        .build())
+                .map(mapperUsuario::toResponse)
                 .toList();
     }
 
@@ -48,23 +35,22 @@ public class UsuarioService {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        usuarioEntity.setNome(usuarioRequest.getNome());
-        usuarioEntity.setEmail(usuarioRequest.getEmail());
-        usuarioEntity.setIdade(usuarioRequest.getIdade());
-
+        mapperUsuario.updateEntityFromDto(usuarioRequest, usuarioEntity);
         usuarioRepository.save(usuarioEntity);
 
-        return UsuarioDtoResponse.builder()
-                .nome(usuarioEntity.getNome())
-                .email(usuarioEntity.getEmail())
-                .idade(usuarioEntity.getIdade())
-                .build();
+        return mapperUsuario.toResponse(usuarioEntity);
     }
 
-        public void deletarUsuario(Long id) {
-                UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        
-                usuarioRepository.delete(usuarioEntity);
-        }
+    public void deletarUsuario(Long id) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuarioRepository.delete(usuarioEntity);
+    }
+
+    public List<UsuarioDtoResponse> listarUsuariosPorIdade(Integer idade) {
+        return usuarioRepository.findByIdade(idade).stream()
+                .map(mapperUsuario::toResponse)
+                .toList();
+    }
 }

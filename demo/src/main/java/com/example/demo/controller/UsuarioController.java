@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor 
@@ -38,6 +39,12 @@ public class UsuarioController {
         return usuarioService.criarUsuario(usuarioDtoRequest);
     }
 
+    @GetMapping("/{idade}")
+    public List<UsuarioDtoResponse> UsuariosPorIdade(@PathVariable Integer idade) {
+        return usuarioService.listarUsuariosPorIdade(idade);
+    }
+    
+
     @PutMapping("/{id}")
     public UsuarioDtoResponse atualizarUsuario(@Valid @PathVariable Long id, @RequestBody UsuariosDtoRequest usuarioDtoRequest) {
         return usuarioService.atualizarUsuario(id, usuarioDtoRequest);
@@ -47,4 +54,6 @@ public class UsuarioController {
     public void deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
     }
+
+
 }
