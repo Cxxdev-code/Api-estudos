@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.UsuarioDtoResponse;
 import com.example.demo.dtos.UsuariosDtoRequest;
+import com.example.demo.exception.UsuarioNameException;
+import com.example.demo.exception.UsuarioNotFoundException;
 import com.example.demo.model.UsuarioEntity;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.mapper.MapperUsuario;
@@ -20,20 +22,28 @@ public class UsuarioService {
     private final MapperUsuario mapperUsuario;
 
     public UsuarioDtoResponse criarUsuario(UsuariosDtoRequest usuarioRequest) {
+
+        if (usuarioRepository.existsByNome(usuarioRequest.getNome())) {
+            throw new UsuarioNameException("Usuário com nome " + usuarioRequest.getNome() + " já existe");
+        }
+        
         UsuarioEntity usuarioEntity = mapperUsuario.toEntity(usuarioRequest);
         usuarioRepository.save(usuarioEntity);
+
         return mapperUsuario.toResponse(usuarioEntity);
     }
 
     public List<UsuarioDtoResponse> listarUsuarios() {
+
         return usuarioRepository.findAll().stream()
                 .map(mapperUsuario::toResponse)
                 .toList();
     }
 
     public UsuarioDtoResponse atualizarUsuario(Long id, UsuariosDtoRequest usuarioRequest) {
+
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
 
         mapperUsuario.updateEntityFromDto(usuarioRequest, usuarioEntity);
         usuarioRepository.save(usuarioEntity);
@@ -43,7 +53,7 @@ public class UsuarioService {
 
     public void deletarUsuario(Long id) {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
 
         usuarioRepository.delete(usuarioEntity);
     }
