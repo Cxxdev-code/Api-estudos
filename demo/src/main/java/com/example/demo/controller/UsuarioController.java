@@ -44,8 +44,12 @@ public class UsuarioController {
     public List<UsuarioDtoResponse> UsuariosPorIdade(@RequestParam Integer idade) {
         return usuarioService.listarUsuariosPorIdade(idade);
     }
-    
 
+    @GetMapping("/nome")
+    public List<UsuarioDtoResponse> UsuariosPorNome(@RequestParam String nome) {
+        return usuarioService.listarUsuariosPorNome(nome);
+    }
+    
     @PutMapping("/{id}")
     public UsuarioDtoResponse atualizarUsuario(@PathVariable Long id,@Valid @RequestBody UsuariosDtoRequest usuarioDtoRequest) {
         return usuarioService.atualizarUsuario(id, usuarioDtoRequest);

@@ -42,5 +42,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST.value())
                 .build();
     }
+    
+    @ExceptionHandler(UsuariosNotFoundNameException.class)
+    public ErrorResponse handleUsuariosNotFoundException(UsuariosNotFoundNameException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .build();
+        return errorResponse;
+    }
 
 }

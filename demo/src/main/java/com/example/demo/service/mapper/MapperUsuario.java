@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dtos.UsuarioDtoResponse;
 import com.example.demo.dtos.UsuariosDtoRequest;
-import com.example.demo.model.UsuarioEntity;
+import com.example.demo.model.UsuariosEntity;
 
 @Component
 public class MapperUsuario {
@@ -12,12 +12,12 @@ public class MapperUsuario {
     /**
      * Converte um DTO de requisição (UsuariosDtoRequest) para a entidade do banco de dados (UsuarioEntity).
      */
-    public UsuarioEntity toEntity(UsuariosDtoRequest request) {
+    public UsuariosEntity toEntity(UsuariosDtoRequest request) {
         if (request == null) {
             return null;
         }
 
-        return UsuarioEntity.builder()
+        return UsuariosEntity.builder()
                 .nome(request.getNome())
                 .email(request.getEmail())
                 .idade(request.getIdade())
@@ -27,7 +27,7 @@ public class MapperUsuario {
     /**
      * Converte a entidade (UsuarioEntity) para o DTO de resposta (UsuarioDtoResponse).
      */
-    public UsuarioDtoResponse toResponse(UsuarioEntity entity) {
+    public UsuarioDtoResponse toResponse(UsuariosEntity entity) {
         if (entity == null) {
             return null;
         }
@@ -57,7 +57,7 @@ public class MapperUsuario {
     /**
      * Atualiza os campos de uma UsuarioEntity existente a partir dos dados do DTO de requisição.
      */
-    public void updateEntityFromDto(UsuariosDtoRequest request, UsuarioEntity entity) {
+    public void updateEntityFromDto(UsuariosDtoRequest request, UsuariosEntity entity) {
         if (request == null || entity == null) {
             return;
         }

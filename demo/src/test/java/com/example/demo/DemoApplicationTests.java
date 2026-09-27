@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.demo.model.UsuarioEntity;
+import com.example.demo.model.UsuariosEntity;
 
 @SpringBootTest
 class DemoApplicationTests {
 
 	@Test
 	void contextLoads() {
-		UsuarioEntity usuario = UsuarioEntity.builder()
+		UsuariosEntity usuario = UsuariosEntity.builder()
 				.id(1L)
 				.nome("Teste")
 				.email("teste@exemplo.com")

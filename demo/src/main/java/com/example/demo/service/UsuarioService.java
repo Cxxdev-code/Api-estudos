@@ -8,7 +8,9 @@ import com.example.demo.dtos.UsuarioDtoResponse;
 import com.example.demo.dtos.UsuariosDtoRequest;
 import com.example.demo.exception.UsuarioNameException;
 import com.example.demo.exception.UsuarioNotFoundException;
-import com.example.demo.model.UsuarioEntity;
+import com.example.demo.exception.UsuarioNotFoundIdadeException;
+import com.example.demo.exception.UsuariosNotFoundNameException;
+import com.example.demo.model.UsuariosEntity;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.mapper.MapperUsuario;
 
@@ -27,7 +29,7 @@ public class UsuarioService {
             throw new UsuarioNameException("Usuário com nome " + usuarioRequest.getNome() + " já existe");
         }
         
-        UsuarioEntity usuarioEntity = mapperUsuario.toEntity(usuarioRequest);
+        UsuariosEntity usuarioEntity = mapperUsuario.toEntity(usuarioRequest);
         usuarioRepository.save(usuarioEntity);
 
         return mapperUsuario.toResponse(usuarioEntity);
@@ -42,7 +44,7 @@ public class UsuarioService {
 
     public UsuarioDtoResponse atualizarUsuario(Long id, UsuariosDtoRequest usuarioRequest) {
 
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+        UsuariosEntity usuarioEntity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
 
         mapperUsuario.updateEntityFromDto(usuarioRequest, usuarioEntity);
@@ -52,14 +54,24 @@ public class UsuarioService {
     }
 
     public void deletarUsuario(Long id) {
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+        UsuariosEntity usuarioEntity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
 
         usuarioRepository.delete(usuarioEntity);
     }
 
     public List<UsuarioDtoResponse> listarUsuariosPorIdade(Integer idade) {
-        return usuarioRepository.findByIdade(idade).stream()
+        return usuarioRepository.findByIdade(idade)
+                .orElseThrow(() -> new UsuarioNotFoundIdadeException("Usuário com idade " + idade + " não encontrado"))
+                .stream()
+                .map(mapperUsuario::toResponse)
+                .toList();
+    }
+
+    public List<UsuarioDtoResponse> listarUsuariosPorNome(String nome) {
+        return usuarioRepository.findByNome(nome)
+                .orElseThrow(() -> new UsuariosNotFoundNameException("Usuário com nome " + nome + " não encontrado"))
+                .stream()
                 .map(mapperUsuario::toResponse)
                 .toList();
     }
