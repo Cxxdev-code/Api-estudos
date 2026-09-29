@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.UsuariosEntity;
 
 
-public interface UsuarioRepository extends JpaRepository<UsuariosEntity, Long> {
+public interface UsuariosRepository extends JpaRepository<UsuariosEntity, Long> {
     public Optional<List<UsuariosEntity>> findByIdade(Integer idade);
 
     public boolean existsByNome(String nome);

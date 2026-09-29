@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dtos.UsuarioDtoResponse;
-import com.example.demo.dtos.UsuariosDtoRequest;
+import com.example.demo.dtos.usuarios.UsuarioDtoResponse;
+import com.example.demo.dtos.usuarios.UsuariosDtoRequest;
 import com.example.demo.service.UsuarioService;
 
 import jakarta.validation.Valid;

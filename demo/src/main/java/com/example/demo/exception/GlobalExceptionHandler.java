@@ -52,4 +52,13 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
+    @ExceptionHandler(UsuarioNotFoundIdadeException.class)
+    public ErrorResponse handleUsuarioNotFoundIdadeException(UsuarioNotFoundIdadeException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .build();
+        return errorResponse;
+    }
+
 }

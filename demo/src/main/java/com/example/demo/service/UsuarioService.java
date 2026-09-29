@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dtos.UsuarioDtoResponse;
-import com.example.demo.dtos.UsuariosDtoRequest;
+import com.example.demo.dtos.usuarios.UsuarioDtoResponse;
+import com.example.demo.dtos.usuarios.UsuariosDtoRequest;
 import com.example.demo.exception.UsuarioNameException;
 import com.example.demo.exception.UsuarioNotFoundException;
 import com.example.demo.exception.UsuarioNotFoundIdadeException;
 import com.example.demo.exception.UsuariosNotFoundNameException;
 import com.example.demo.model.UsuariosEntity;
-import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.repository.UsuariosRepository;
 import com.example.demo.service.mapper.MapperUsuario;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor 
 public class UsuarioService {
     
-    private final UsuarioRepository usuarioRepository;
+    private final UsuariosRepository usuarioRepository;
     private final MapperUsuario mapperUsuario;
 
     public UsuarioDtoResponse criarUsuario(UsuariosDtoRequest usuarioRequest) {
