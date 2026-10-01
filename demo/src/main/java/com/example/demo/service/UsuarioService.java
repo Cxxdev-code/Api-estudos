@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.usuarios.UsuarioDtoResponse;
 import com.example.demo.dtos.usuarios.UsuariosDtoRequest;
-import com.example.demo.exception.UsuarioNameException;
-import com.example.demo.exception.UsuarioNotFoundException;
-import com.example.demo.exception.UsuarioNotFoundIdadeException;
-import com.example.demo.exception.UsuariosNotFoundNameException;
+import com.example.demo.exception.usuarios.UsuarioNameException;
+import com.example.demo.exception.usuarios.UsuarioNotFoundException;
+import com.example.demo.exception.usuarios.UsuarioNotFoundIdadeException;
+import com.example.demo.exception.usuarios.UsuariosNotFoundNameException;
 import com.example.demo.model.UsuariosEntity;
 import com.example.demo.repository.UsuariosRepository;
 import com.example.demo.service.mapper.MapperUsuario;

@@ -7,6 +7,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.example.demo.exception.tarefas.TarefaDescricaoException;
+import com.example.demo.exception.tarefas.TarefaStatusException;
+import com.example.demo.exception.tarefas.TarefaTituloException;
+import com.example.demo.exception.tarefas.TarefasNotFoundException;
+import com.example.demo.exception.tarefas.TarefasNotFoundStatusException;
+import com.example.demo.exception.usuarios.UsuarioNameException;
+import com.example.demo.exception.usuarios.UsuarioNotFoundException;
+import com.example.demo.exception.usuarios.UsuarioNotFoundIdadeException;
+import com.example.demo.exception.usuarios.UsuariosNotFoundNameException;
+
 @RestControllerAdvice 
 public class GlobalExceptionHandler {
     
@@ -59,6 +69,30 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND.value())
                 .build();
         return errorResponse;
+    }
+
+    @ExceptionHandler({TarefaTituloException.class, TarefaDescricaoException.class, TarefaStatusException.class})
+    public ErrorResponse handleTarefaValidationException(RuntimeException ex) {
+        return ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .build();
+    }
+
+    @ExceptionHandler(TarefasNotFoundException.class)
+    public ErrorResponse handleTarefasNotFoundException(TarefasNotFoundException ex) {
+        return ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .build();
+    }
+
+    @ExceptionHandler(TarefasNotFoundStatusException.class)
+    public ErrorResponse handleTarefasNotFoundStatusException(TarefasNotFoundStatusException ex) {
+        return ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .build();
     }
 
 }
