@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,13 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dtos.tarefas.TarefasDtoResponse;
 import com.example.demo.model.Status;
+import com.example.demo.dtos.tarefas.StatusDtoRequest;
 import com.example.demo.dtos.tarefas.TarefasDtoRequest;
 import com.example.demo.service.TarefaService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.val;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -37,8 +43,14 @@ public class TarefaController {
     }
 
     @GetMapping("/status")
-    public List<TarefasDtoResponse> listarTarefasPorStatus(@PathVariable Long usuarioId, @RequestParam Status status) {
+    public List<TarefasDtoResponse> listarTarefasPorStatus(@PathVariable Long usuarioId,@Valid @RequestParam Status status) {
         return tarefaService.listarTarefasPorStatus(usuarioId, status);
+    }
+
+    @PatchMapping("/{tarefaId}/status")
+    public TarefasDtoResponse atualizarTarefa(@PathVariable Long tarefaId,
+                                            @Valid @RequestBody StatusDtoRequest statusDtoRequest) {
+        return tarefaService.atualizarTarefa(tarefaId, statusDtoRequest.getStatus());
     }
 
 }

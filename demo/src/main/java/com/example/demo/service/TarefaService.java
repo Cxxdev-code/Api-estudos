@@ -61,7 +61,17 @@ public class TarefaService {
             }
         }
         return mapperTarefas.toResponse(tarefas);
-    }
+        }
+
+
+    public TarefasDtoResponse atualizarTarefa(Long tarefaId, Status status) {
+
+            TarefasEntity tarefaExistente = tarefasRepository.findById(tarefaId)
+                    .orElseThrow(() -> new TarefasNotFoundException("Tarefa não encontrada com o ID: " + tarefaId));
+
+            tarefaExistente.setStatus(status);
+            return mapperTarefas.toResponse(tarefasRepository.save(tarefaExistente));
+        }
 
     private void validarRequest(TarefasDtoRequest request) {
         if (request == null || request.getTitulo() == null || request.getTitulo().isBlank()) {
