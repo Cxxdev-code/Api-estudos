@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.tarefas.TarefasDtoRequest;
 import com.example.demo.dtos.tarefas.TarefasDtoResponse;
-import com.example.demo.exception.tarefas.TarefaDescricaoException;
-import com.example.demo.exception.tarefas.TarefaStatusException;
-import com.example.demo.exception.tarefas.TarefaTituloException;
 import com.example.demo.exception.tarefas.TarefasNotFoundException;
 import com.example.demo.exception.tarefas.TarefasNotFoundStatusException;
 import com.example.demo.exception.usuarios.UsuarioNotFoundException;
@@ -37,7 +34,6 @@ public class TarefaService {
     }
 
     public TarefasDtoResponse criarTarefa(TarefasDtoRequest request, Long usuarioId) {
-        validarRequest(request);
 
         UsuariosEntity usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado com o ID: " + usuarioId));
@@ -73,23 +69,12 @@ public class TarefaService {
             return mapperTarefas.toResponse(tarefasRepository.save(tarefaExistente));
         }
 
-    private void validarRequest(TarefasDtoRequest request) {
-        if (request == null || request.getTitulo() == null || request.getTitulo().isBlank()) {
-            throw new TarefaTituloException("O título da tarefa é obrigatório");
-        }
-        if (request.getTitulo().length() < 5 || request.getTitulo().length() > 150) {
-            throw new TarefaTituloException("O título deve ter entre 5 e 150 caracteres");
-        }
-        if (request.getDescricao() == null || request.getDescricao().isBlank()) {
-            throw new TarefaDescricaoException("A descrição da tarefa é obrigatória");
-        }
-        if (request.getDescricao().length() < 5 || request.getDescricao().length() > 1000) {
-            throw new TarefaDescricaoException("A descrição deve ter entre 5 e 1000 caracteres");
-        }
-        if (request.getStatus() == null) {
-            throw new TarefaStatusException("O status da tarefa é obrigatório");
-        }
-    }
 
+    public void deletarTarefa(Long tarefaId) {
+        TarefasEntity tarefaExistente = tarefasRepository.findById(tarefaId)
+                .orElseThrow(() -> new TarefasNotFoundException("Tarefa não encontrada com o ID: " + tarefaId));
+
+        tarefasRepository.delete(tarefaExistente);
+    }
 
 }
